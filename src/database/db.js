@@ -3,6 +3,8 @@ const sqlite3 = require('sqlite3').verbose();
 const db = new sqlite3.Database('./database.sqlite');
 
 db.serialize(() => {
+  db.run(`PRAGMA foreign_keys = ON`);
+
   db.run(`
     CREATE TABLE IF NOT EXISTS users (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -24,11 +26,11 @@ db.serialize(() => {
   db.run(`
     CREATE TABLE IF NOT EXISTS loans (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
-      user_id INTEGER,
-      book_id INTEGER,
-      loan_date TEXT,
-      FOREIGN KEY(user_id) REFERENCES users(id),
-      FOREIGN KEY(book_id) REFERENCES books(id)
+      user_id INTEGER NOT NULL,
+      book_id INTEGER NOT NULL,
+      loan_date TEXT NOT NULL,
+      FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE,
+      FOREIGN KEY(book_id) REFERENCES books(id) ON DELETE CASCADE
     )
   `);
 });

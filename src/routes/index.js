@@ -4,7 +4,7 @@ const router = express.Router();
 const user = require('../controllers/userController');
 const book = require('../controllers/bookController');
 const loan = require('../controllers/loanController');
-const auth = require('../middlewares/auth');
+const auth = require('../middleware/auth');
 
 router.post('/register', user.register);
 router.post('/login', user.login);
